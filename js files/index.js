@@ -14,4 +14,13 @@ function treatCats(catsArr){
     })
 }
 
-module.exports = {ageCat, treatCats}
+function createRef(peopleArr) {
+    if (!peopleArr.length) return []
+    const refObj = {}
+    for (const person of peopleArr) {
+        refObj[person.name] = person.phoneNumber
+    }
+    return refObj
+}
+
+module.exports = {ageCat, treatCats, createRef}

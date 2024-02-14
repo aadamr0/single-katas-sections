@@ -1,4 +1,4 @@
-const {ageCat, treatCats} = require('../js files/index.js')
+const {ageCat, treatCats, createRef} = require('../js files/index.js')
 
 describe('ageCat', () => {
     it('should return empty object when passed empty object', () => {
@@ -44,7 +44,7 @@ describe('ageCat', () => {
     });
 });
 
-describe.only('treatCats', () => {
+describe('treatCats', () => {
     it('should return empty array if passed empty array', () => {
         expect(treatCats([])).toEqual([])
     });
@@ -108,3 +108,97 @@ describe.only('treatCats', () => {
       expect(catsArr[0]).not.toBe(newArr[0]);
     });
 });
+
+describe.only('createRef', () => {
+    it('should return empty array if passed empty array', () => {
+        expect(createRef([])).toEqual([]);
+    });
+    it('should convert an array of 1 person into a reference object', () => {
+      //arrange
+      const personArr = [
+        {
+          name: "vel",
+          phoneNumber: "01134445566",
+          address: "Northcoders, Leeds",
+        },
+      ];
+      //act
+      const referenceObj = createRef(personArr)
+      //assert
+      expect(referenceObj).toEqual({
+        vel: "01134445566",
+      });
+    });
+    it('should convert array of 2 or more people into ref object', () => {
+      //arrange
+      const personArr = [
+        {
+          name: "vel",
+          phoneNumber: "01134445566",
+          address: "Northcoders, Leeds",
+        },
+        {
+          name: "tom",
+          phoneNumber: "01134445736",
+          address: "Northcoders, Leeds",
+        }
+      ];
+      //act
+      const referenceObj = createRef(personArr);
+      //assert
+      expect(referenceObj).toEqual({
+        vel: "01134445566",
+        tom: "01134445736"
+      });
+    });
+    it('should not mutate original array', () => {
+      //arrange
+      const arr = [
+        {
+          name: "vel",
+          phoneNumber: "01134445566",
+          address: "Northcoders, Leeds",
+        },
+        {
+          name: "tom",
+          phoneNumber: "01134445736",
+          address: "Northcoders, Leeds",
+        },
+      ]
+      //act
+      createRef(arr)
+      //assert
+      expect(arr).toEqual([
+        {
+          name: "vel",
+          phoneNumber: "01134445566",
+          address: "Northcoders, Leeds",
+        },
+        {
+          name: "tom",
+          phoneNumber: "01134445736",
+          address: "Northcoders, Leeds",
+        },
+      ]);
+    });
+    it('should not mutate original objects', () => {
+      const arr = [
+        {
+          name: "vel",
+          phoneNumber: "01134445566",
+          address: "Northcoders, Leeds",
+        },
+        {
+          name: "tom",
+          phoneNumber: "01134445736",
+          address: "Northcoders, Leeds",
+        },
+      ];
+      createRef(arr)
+      expect(arr[0]).toEqual({
+        name: "vel",
+        phoneNumber: "01134445566",
+        address: "Northcoders, Leeds",
+      });
+    });
+})
