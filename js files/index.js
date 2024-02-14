@@ -5,4 +5,13 @@ function ageCat(catObj){
     return newObj
 }
 
-module.exports = {ageCat}
+function treatCats(catsArr){
+    if (!catsArr.length) return []
+    return treatedCats = catsArr.map((catObj) => {
+        const newObj = structuredClone(catObj);
+        newObj.hasRabies = false;
+        return newObj;
+    })
+}
+
+module.exports = {ageCat, treatCats}
