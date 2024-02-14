@@ -1,4 +1,9 @@
-const { ageCat, treatCats, createRef } = require("../js files/index.js");
+const {
+  ageCat,
+  treatCats,
+  createRef,
+  formatBooks,
+} = require("../js files/index.js");
 
 describe("ageCat", () => {
   it("should return empty object when passed empty object", () => {
@@ -109,7 +114,7 @@ describe("treatCats", () => {
   });
 });
 
-describe.only("createRef", () => {
+describe("createRef", () => {
   it("should return empty array if passed empty array", () => {
     expect(createRef([])).toEqual([]);
   });
@@ -220,5 +225,88 @@ describe.only("createRef", () => {
       vel: "Northcoders, Leeds",
       ant: "Northcoders, Manchester",
     });
+  });
+});
+
+describe.only("formatBooks", () => {
+  it("should return empty array if passed empty array", () => {
+    expect(formatBooks([])).toEqual([]);
+  });
+  it("should switch authorName for appropriate id for array of 1 author", () => {
+    const booksArr = [{ name: "book1", author: "Author1", releaseYear: 2009 }];
+    const format = {
+      Author1: 1,
+    };
+    expect(formatBooks(booksArr, format)).toEqual([
+      { name: "book1", authorId: 1, releaseYear: 2009 },
+    ]);
+  });
+  it("should switch authorName for appropriate id for array of 2 or more authors", () => {
+    const booksArr = [
+      { name: "book1", author: "Author1", releaseYear: 2009 },
+      { name: "Book2", author: "author2", releaseYear: 2009 },
+    ];
+    const format = {
+      Author1: 1,
+      author2: 2,
+    };
+    expect(formatBooks(booksArr, format)).toEqual([
+      { name: "book1", authorId: 1, releaseYear: 2009 },
+      { name: "Book2", authorId: 2, releaseYear: 2009 },
+    ]);
+  });
+  it("should not mutate the original array", () => {
+    const booksArr = [
+      { name: "book1", author: "Author1", releaseYear: 2009 },
+      { name: "Book2", author: "author2", releaseYear: 2009 },
+    ];
+    const format = {
+      Author1: 1,
+      author2: 2,
+    };
+    formatBooks(booksArr, format);
+    expect(booksArr).toEqual([
+      { name: "book1", author: "Author1", releaseYear: 2009 },
+      { name: "Book2", author: "author2", releaseYear: 2009 },
+    ]);
+  });
+  it("should not mutate original objects", () => {
+    const booksArr = [
+      { name: "book1", author: "Author1", releaseYear: 2009 },
+      { name: "Book2", author: "author2", releaseYear: 2009 },
+    ];
+    const format = {
+      Author1: 1,
+      author2: 2,
+    };
+    formatBooks(booksArr, format);
+    expect(booksArr).toEqual([
+      { name: "book1", author: "Author1", releaseYear: 2009 },
+      { name: "Book2", author: "author2", releaseYear: 2009 },
+    ]);
+  });
+  it("should return new array", () => {
+    const booksArr = [
+      { name: "book1", author: "Author1", releaseYear: 2009 },
+      { name: "Book2", author: "author2", releaseYear: 2009 },
+    ];
+    const format = {
+      Author1: 1,
+      author2: 2,
+    };
+    const newArr = formatBooks(booksArr, format);
+    expect(newArr).not.toBe(booksArr);
+  });
+  it("should return new objects", () => {
+    const booksArr = [
+      { name: "book1", author: "Author1", releaseYear: 2009 },
+      { name: "Book2", author: "author2", releaseYear: 2009 },
+    ];
+    const format = {
+      Author1: 1,
+      author2: 2,
+    };
+    const newArr = formatBooks(booksArr, format);
+    expect(newArr[0]).not.toBe(booksArr[0]);
   });
 });

@@ -23,4 +23,21 @@ function createRef(peopleArr, property1 = "name", value1 = "phoneNumber") {
   return refObj;
 }
 
-module.exports = { ageCat, treatCats, createRef };
+function formatBooks(booksArr, authorRef){
+    if (!booksArr.length) return []
+    // for every book
+    // make copy obj
+    // get author
+    // add new property authorid from ref
+    // delete old author property
+    // return new books arr
+    return booksArr.map((book) => {
+        const copyBook = structuredClone(book)
+        const author = copyBook['author']
+        copyBook.authorId = authorRef[author]
+        delete copyBook.author
+        return copyBook
+    })
+}
+
+module.exports = { ageCat, treatCats, createRef, formatBooks};
